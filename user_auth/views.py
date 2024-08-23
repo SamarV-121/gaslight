@@ -1,7 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib import auth
-from django.contrib.auth.decorators import login_required
 
 from user_auth.models import CustomUserModel
 
@@ -11,24 +10,25 @@ def login(request):
         username = request.POST.get("username")
         password = request.POST.get("password")
 
-        if not CustomUserModel.objects.filter(username=username).exists():
+        user = CustomUserModel.objects.filter(username=username)
+
+        if not user.exists():
             return HttpResponse("Username not found, Bitch")
 
-        user = auth.authenticate(username=username, password=password)
+        auth_user = auth.authenticate(username=username, password=password)
 
-        if user is not None:
-            auth.login(request, user)
+        if auth_user is not None:
+            auth.login(request, auth_user)
             return redirect("home")
         else:
-            return HttpResponse(f"WTF - {user}")
+            return HttpResponse("Wrong credentials, Bitch")
 
     return render(request, "login.html")
 
 
 def logout(request):
-    if request.method == "POST":
-        auth.logout(request)
-        return redirect("home")
+    auth.logout(request)
+    return redirect("home")
 
 
 def register(request):
@@ -38,6 +38,11 @@ def register(request):
         password = request.POST.get("password")
         contact = request.POST.get("contact")
         address = request.POST.get("address")
+
+        user = CustomUserModel.objects.filter(username=username)
+
+        if user.exists():
+            return HttpResponse("Username already taken, Bitch")
 
         data = CustomUserModel(
             full_name=full_name,
