@@ -1,4 +1,4 @@
 from django.urls import path
 from . import views
 
-urlpatterns = [path("", views.index, name="user_request")]
+urlpatterns = [path("", views.service_request, name="user_request")]

@@ -1,3 +1,5 @@
 from django.contrib import admin
 
-# Register your models here.
+from user_request.models import ServiceRequestModel
+
+admin.site.register(ServiceRequestModel)
