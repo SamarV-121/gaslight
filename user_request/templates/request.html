@@ -13,6 +13,12 @@
                 <div class="lg:w-1/2 md:w-2/3 mx-auto">
                     <div class="flex flex-wrap -m-2">
                         <div class="p-2 w-full">
+                            <label for="service_type" class="leading-7 text-sm text-gray-600">Service type</label>
+                            <select id="service_type"
+                                    name="service_type"
+                                    class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded w-full p-2.5 mb-4">
+                                {% for value, display in service_type_choices %}<option value="{{ value }}">{{ display }}</option>{% endfor %}
+                            </select>
                             <div class="relative">
                                 <label for="message" class="leading-7 text-sm text-gray-600">Message</label>
                                 <textarea id="message"

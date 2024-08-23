@@ -44,8 +44,11 @@
                             </div>
                             <div class="flex-grow sm:pl-6 mt-6 sm:mt-0">
                                 <h2 class="font-medium title-font text-gray-900 mb-1 text-xl">{{ user_request.created_at }}</h2>
-                                <p class="leading-relaxed">{{ user_request.description }}</p>
-                                {% if user_request.status == "addressed" %}Resolved at: {{ user_request.resolved_at }}{% endif %}
+                                <p class="leading-relaxed mb-2">Type: {{ user_request.service_type }}</p>
+                                <p class="leading-relaxed mb-2">{{ user_request.description }}</p>
+                                {% if user_request.status == "addressed" %}
+                                    <p class="leading-relaxed mb-2">Resolved at: {{ user_request.resolved_at }}</p>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
