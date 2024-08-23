@@ -18,3 +18,10 @@ def service_request(request):
 
         data.save()
     return render(request, "request.html")
+
+
+@login_required
+def view_requests(request):
+    user_requests = ServiceRequestModel.objects.filter(username=request.user.username)
+
+    return render(request, "view_requests.html", {"user_requests": user_requests})
