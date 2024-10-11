@@ -18,6 +18,7 @@ def login(request):
 
             if auth_user is not None:
                 auth.login(request, auth_user)
+                messages.success(request, f"Welcome {auth_user.full_name}")
                 return redirect("home")
             else:
                 messages.error(request, "Wrong credentials")
@@ -44,16 +45,21 @@ def register(request):
             contact = form.cleaned_data.get("contact")
             address = form.cleaned_data.get("address")
 
-            data = CustomUserModel(
-                full_name=full_name,
-                username=username,
-                contact=contact,
-                address=address,
-            )
-            data.set_password(password)
-            data.save()
+            try:
+                data = CustomUserModel(
+                    full_name=full_name,
+                    username=username,
+                    contact=contact,
+                    address=address,
+                )
+                data.set_password(password)
+                data.save()
 
-            return redirect("login")
+                messages.success(request, "Registration successful! Please login")
+                return redirect("login")
+            except Exception as _:
+                messages.error(request, "Error occured while saving your data")
+                return render(request, "register.html", form_data)
         else:
             return render(request, "register.html", form_data)
     return render(request, "register.html")

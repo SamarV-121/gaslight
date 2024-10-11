@@ -1,13 +1,16 @@
 {% if messages %}
-  <script>
-    setTimeout(function () {
-      const messages = document.querySelectorAll('.message')
-      messages.forEach(function (element) {
-        element.style.transition = 'opacity 0.5s'
-        element.style.opacity = '0'
-      })
-    }, 5000)
-  </script>
+    <script>
+        setTimeout(function() {
+            const messages = document.querySelectorAll('.message');
+            messages.forEach(function(element) {
+                element.style.transition = 'opacity 0.5s'
+                element.style.opacity = '0'
+                setTimeout(() => {
+                    element.style.display = 'none'
+                }, 500);
+            });
+        }, 5000);
+    </script>
   <div class="fixed top-5 left-0 w-full flex items-center justify-center">
     {% for message in messages %}
       <div class="{% if 'error' in message.tags %}
