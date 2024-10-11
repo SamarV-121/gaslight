@@ -20,6 +20,7 @@ class ServiceRequestModel(models.Model):
         choices=STATUS_CHOICES,
         default="pending",
     )
+    file = models.FileField(upload_to="requests/", null=True, blank=True)
     service_type = models.CharField(max_length=20, choices=SERVICE_TYPE_CHOICES)
     created_at = models.DateTimeField(auto_now_add=True)
     resolved_at = models.DateTimeField(null=True, blank=True)
