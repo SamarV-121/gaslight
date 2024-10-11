@@ -1,32 +1,29 @@
 from django.shortcuts import render, redirect
 from django.contrib import auth, messages
 
+from user_auth.forms import LoginForm, RegisterForm
 from user_auth.models import CustomUserModel
 
 
 def login(request):
     if request.method == "POST":
-        username = request.POST.get("username")
-        password = request.POST.get("password")
+        form = LoginForm(request.POST)
+        form_data = {"form": form}
 
-        user = CustomUserModel.objects.filter(username=username)
+        if form.is_valid():
+            username = form.cleaned_data.get("username")
+            password = form.cleaned_data.get("password")
 
-        if not user.exists():
-            messages.error(
-                request,
-                "User not found. Please check your username and try again, if you care.",
-            )
-            return redirect("login")
+            auth_user = auth.authenticate(username=username, password=password)
 
-        auth_user = auth.authenticate(username=username, password=password)
-
-        if auth_user is not None:
-            auth.login(request, auth_user)
-            return redirect("home")
+            if auth_user is not None:
+                auth.login(request, auth_user)
+                return redirect("home")
+            else:
+                messages.error(request, "Wrong credentials")
+                return redirect("login")
         else:
-            messages.error(request, "Wrong credentials")
-            return redirect("login")
-
+            return render(request, "login.html", form_data)
     return render(request, "login.html")
 
 
@@ -37,29 +34,26 @@ def logout(request):
 
 def register(request):
     if request.method == "POST":
-        full_name = request.POST.get("full_name")
-        username = request.POST.get("username")
-        password = request.POST.get("password")
-        contact = request.POST.get("contact")
-        address = request.POST.get("address")
+        form = RegisterForm(request.POST)
+        form_data = {"form": form}
 
-        user = CustomUserModel.objects.filter(username=username)
+        if form.is_valid():
+            full_name = form.cleaned_data.get("full_name")
+            username = form.cleaned_data.get("username")
+            password = form.cleaned_data.get("password")
+            contact = form.cleaned_data.get("contact")
+            address = form.cleaned_data.get("address")
 
-        if user.exists():
-            messages.error(
-                request, "Username already taken, Try being a bit more original"
+            data = CustomUserModel(
+                full_name=full_name,
+                username=username,
+                contact=contact,
+                address=address,
             )
-            return redirect("register")
+            data.set_password(password)
+            data.save()
 
-        data = CustomUserModel(
-            full_name=full_name,
-            username=username,
-            contact=contact,
-            address=address,
-        )
-        data.set_password(password)
-
-        data.save()
-        return redirect("login")
-
+            return redirect("login")
+        else:
+            return render(request, "register.html", form_data)
     return render(request, "register.html")
