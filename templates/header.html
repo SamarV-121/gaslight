@@ -22,8 +22,8 @@
             {% if user.is_authenticated %}
                 <span class="mr-4">Hello there, {{ request.user.full_name }}</span>
             {% else %}
-                <button class="inline-flex items-center bg-indigo-500 border-0 py-1 text-gray-900 px-3 focus:outline-none hover:bg-indigo-900 rounded text-base mt-4 md:mt-0 mr-3">
-                    <a href="/accounts/login">Log in</a>
+                <a class="inline-flex items-center bg-indigo-500 border-0 py-1 text-gray-900 px-3 focus:outline-none hover:bg-indigo-900 rounded text-base mt-4 md:mt-0 mr-3"
+                    href="/accounts/login">Log in
                     <svg fill="none"
                         stroke="currentColor"
                         stroke-linecap="round"
@@ -33,24 +33,20 @@
                         viewBox="0 0 24 24">
                         <path d="M5 12h14M12 5l7 7-7 7"></path>
                     </svg>
-                </button>
+                </a>
             {% endif %}
-            <button class="inline-flex items-center bg-indigo-500 border-0 py-1 text-gray-900 px-3 focus:outline-none hover:bg-indigo-900 rounded text-base mt-4 md:mt-0">
-                {% if user.is_authenticated %}
-                    <a href="/accounts/logout">Log out</a>
-                {% else %}
-                    <a href="/accounts/register">Sign up</a>
-                {% endif %}
+            <a class="inline-flex items-center bg-indigo-500 border-0 py-1 text-gray-900 px-3 focus:outline-none hover:bg-indigo-900 rounded text-base mt-4 md:mt-0 mr-3"
+                {% if user.is_authenticated %} href="/accounts/logout"> Log out {% else %} href="/accounts/register"> Sign up {% endif %}
                 <svg fill="none"
-                     stroke="currentColor"
-                     stroke-linecap="round"
-                     stroke-linejoin="round"
-                     stroke-width="2"
-                     class="w-4 h-4 ml-1"
-                     viewBox="0 0 24 24">
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    class="w-4 h-4 ml-1"
+                    viewBox="0 0 24 24">
                     <path d="M5 12h14M12 5l7 7-7 7"></path>
                 </svg>
-            </button>
+            </a>
         </div>
     </div>
 </header>
