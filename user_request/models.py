@@ -24,3 +24,6 @@ class ServiceRequestModel(models.Model):
     service_type = models.CharField(max_length=20, choices=SERVICE_TYPE_CHOICES)
     created_at = models.DateTimeField(auto_now_add=True)
     resolved_at = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        verbose_name = "Service Request"
